@@ -4,6 +4,7 @@ import Login from './Login';
 import Register from './Register';
 import Home from './Home';
 import About from './About';
+import Chat from './Chat';
 import NotFound from './NotFound';
 
 // const screnes = {
@@ -17,6 +18,7 @@ export default {
   Login: Login,
   Register: Register,
   Home: Home,
+  Chat: Chat,
   About: About,
   NotFound: NotFound,
 };

@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-// import FacebookLogin from 'react-facebook-login';
 import io from 'socket.io-client';
 const socket = io('http://localhost:30000');
 
-
-// const responseFacebook = (response) => {
-//   console.log(response);
-// }
 
 class Chat extends Component {
 

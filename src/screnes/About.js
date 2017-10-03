@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 class About extends Component {
   constructor(props) {
     super(props);
-    console.log('..............');
   }
 
   componentDidMount() {
@@ -19,7 +18,7 @@ class About extends Component {
   render() {
     return (
       <div>
-        <h1>ABOUT</h1>
+        <h1>TDNH TEAM</h1>
       </div>
     )
   }

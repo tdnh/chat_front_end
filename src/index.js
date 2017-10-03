@@ -9,6 +9,7 @@ import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-ro
 import reducers from './reducers' // Or wherever you keep your reducers
 
 import Routes from './router';
+import App from './App';
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()
@@ -24,7 +25,8 @@ const store = createStore(
     router: routerReducer
   }),
   applyMiddleware(middleware)
-)
+);
+
 
 // Now you can dispatch navigation actions from anywhere!
 // store.dispatch(push('/foo'))
@@ -33,7 +35,7 @@ ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history} >
-      <Routes />
+      <App />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')

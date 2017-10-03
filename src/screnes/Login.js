@@ -1,15 +1,48 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
+import '../styles/Login.css';
+
+
+const styles = theme => ({
+  container: {
+    // display: 'flex',
+    flexWrap: 'wrap',
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+  menu: {
+    width: 200,
+  },
+});
+
+
+
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    console.log('LOGIN');
+
     this.state = {
       email: '',
       password: ''
     }
   }
+
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
 
   componentDidMount() {
 
@@ -36,43 +69,56 @@ class Login extends Component {
   //   );
   // }
 
-  handleSubmit = (event) => {
+  handleLogin = (event) => {
     alert('An essay was submitted: ' + this.state.email + ' ' + this.state.password);
     event.preventDefault();
   }
 
-  handleEmail = (event) => {
-    this.setState({email: event.target.value});
-  }
-
-  handlePassword = (event) => {
-    this.setState({password: event.target.value});
-  }
-
-
   render() {
+    const { classes } = this.props;
+
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Email:
-            <input type="text" name="email" value={this.state.email} onChange={this.handleEmail} />
-          </label>
-          <label>
-            Password:
-            <input type="password" name="password" value={this.state.password} onChange={this.handlePassword} />
-          </label>
-          <input type="submit" value="Submit" />
+        <h1>User Login</h1>
+        <form className={classes.container} noValidate autoComplete="off">
+          <TextField
+            required
+            id="email"
+            label="Email"
+            value={this.state.email}
+            onChange={this.handleChange('email')}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            placeholder="email"
+            margin="normal"
+          />
+          <TextField
+            required
+            id="password"
+            label="Password"
+            className={classes.textField}
+            type="password"
+            onChange={this.handleChange('password')}
+            autoComplete="current-password"
+            placeholder="password"
+            InputLabelProps={{
+                shrink: true,
+              }}
+            margin="normal"
+          />
+          <Button raised color="primary" className={classes.button} onClick={this.handleLogin}>
+            Login
+          </Button>
         </form>
       </div>
     )
   }
 };
 
+Login.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-// Login.propTypes = {
-//   values: PropTypes.number.isRequired
-// };
-
-
-export default Login;
+export default withStyles(styles)(Login);
