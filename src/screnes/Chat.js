@@ -4,6 +4,9 @@ import { withStyles } from 'material-ui/styles';
 import Input from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import config from '../config';
+import '../styles/Chat.css';
+
+import { connect } from 'react-redux';
 
 
 import io from 'socket.io-client';
@@ -12,8 +15,9 @@ const socket = io('http://localhost:30000');
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    // flexWrap: 'wrap',
+    // display: 'flex',
+    textAlign: 'center',
+    flexWrap: 'wrap',
   },
   input: {
     margin: theme.spacing.unit,
@@ -54,10 +58,11 @@ class Chat extends Component {
 
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
-      message: '',
+      message: {},
       messages: [],
-      name: '',
+      user: props.user,
       roomId: ''
     };
     socket.on('connect', this.onConnect);
@@ -65,7 +70,6 @@ class Chat extends Component {
 
   onConnect = () => {
     let that = this;
-    console.log(socket);
 
     // socket.emit('add-user', {username: that.state.name});
 
@@ -76,13 +80,21 @@ class Chat extends Component {
     // socket.on('typing', (data) => {
     //   console.log(data.username + " Typing");
     // });
-    socket.emit('join', {roomId: '1111111'});
+    socket.on('message', function (data) {
+      console.log('on message data', data);
+      let messages = that.state.messages.slice();
+      messages.push(data);
+      that.setState({
+        messages: messages
+      })
+    });
+    socket.emit('join', {roomId: '59cf5f6dbe94083b0bfb8221'});
     socket.on('newMessage', function(data){
 
       console.log('newMessage data', data);
-      console.log(`User ${data.username} send new message ${data.message}`);
+      console.log(`User ${data.author.name} send new message ${data.body}`);
       let messages = that.state.messages.slice();
-      messages.push(data.message);
+      messages.push(data);
       that.setState({
         messages: messages
       })
@@ -94,18 +106,18 @@ class Chat extends Component {
     //   console.log(`User ${d.username} left room`);
     // });
     socket.on('disconnect', function(d){
-      console.log('disconnec ',d);
+      console.log('disconnect ',d);
     });
   }
 
   onSend = (event) => {
-    console.log('.....');
-    let messages = this.state.messages.slice();
-    messages.push(this.state.message);
-    this.setState({
-      messages: messages
-    })
-    socket.emit('message', {user: socket.id, roomId: '1111111', message: this.state.message});
+    console.log('onSend.....', this.state.message);
+    // let messages = this.state.messages.slice();
+    // messages.push(this.state.message);
+    // this.setState({
+    //   messages: messages
+    // })
+    socket.emit('message', {user: this.state.user._id, roomId: '59cf5f6dbe94083b0bfb8221', message: this.state.message});
   }
 
   handleChange = (event) => {
@@ -120,22 +132,29 @@ class Chat extends Component {
     const classes = this.props.classes;
 
     let messages = this.state.messages.map(m => {
-      return (<span key={m}>{m}</span>);
+      return (<span key={m._id}>{m.body}</span>);
     });
 
     return (
       <div className={classes.container}>
-        <Input
-          placeholder="Placeholder"
-          className={classes.input}
-          onChange={this.handleChange}
-          inputProps={{
-            'aria-label': 'Description',
-          }}
-        />
-        <Button raised color="primary" className={classes.button} onClick={this.onSend}> Send </Button>
-        <Button raised color="primary" className={classes.button} onClick={createRoom}> Create Room </Button>
-        <div>{messages}</div>
+        <div>
+          <h1>Hello chat</h1>
+        </div>
+        <div>
+          {messages}
+        </div>
+        <footer >
+          <Input
+            placeholder="Placeholder"
+            className={classes.input}
+            onChange={this.handleChange}
+            inputProps={{
+              'aria-label': 'Description',
+            }}
+          />
+          <Button raised color="primary" className={classes.button} onClick={this.onSend}> Send </Button>
+          <Button raised color="primary" className={classes.button} onClick={createRoom}> Create Room </Button>
+      </footer>
       </div>
     );
   }
@@ -143,6 +162,24 @@ class Chat extends Component {
 
 Chat.propTypes = {
   classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Chat);
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+};
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch
+  }
+};
+
+
+const ChatConnect = connect(mapStateToProps,mapDispatchToProps)(Chat);
+
+// export default withStyles(styles)(Chat);
+export default withStyles(styles)(ChatConnect);

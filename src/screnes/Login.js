@@ -5,6 +5,8 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import '../styles/Login.css';
 import config from '../config';
+import { userLogin } from '../actions';
+import { connect } from 'react-redux';
 
 
 const styles = theme => ({
@@ -55,10 +57,9 @@ function login({email, password}) {
 class Login extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      email: '',
-      password: ''
+      email: 'n@n.com',
+      password: 'n@n.com'
     }
   }
 
@@ -95,13 +96,15 @@ class Login extends Component {
   // }
 
   handleLogin = (event) => {
-    // alert('An essay was submitted: ' + this.state.email + ' ' + this.state.password);
-    login({email: this.state.email, password: this.state.password});
+    this.props.dispatch(userLogin({email: this.state.email, password: this.state.password}));
     event.preventDefault();
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
+    if (Object.keys(user).length != 0 && user.constructor === Object) {
+      return (<h1>Hello {user.name}</h1>);
+    }
 
     return (
       <div>
@@ -145,6 +148,23 @@ class Login extends Component {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+
+
+function mapStatetoProps(state) {
+  return {
+    user: state.user
+  }
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch
+  }
+};
+
+const LoginComponent = connect(mapStatetoProps, mapDispatchToProps)(Login);
+
+export default withStyles(styles)(LoginComponent);
