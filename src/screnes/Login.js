@@ -4,6 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import '../styles/Login.css';
+import config from '../config';
 
 
 const styles = theme => ({
@@ -24,6 +25,30 @@ const styles = theme => ({
   },
 });
 
+
+
+function login({email, password}) {
+  fetch(
+    `${config.url}/users/login`,
+    { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email, password}) }
+  ).then(resp => {
+    return resp.json();
+  }).then(data => {
+    console.log(data);
+    if (data.code === 200) {
+      alert('Success');
+    } else {
+      alert(JSON.stringify(data));
+    }
+  }).catch(err => {
+    console.log(err);
+  });
+};
 
 
 
@@ -70,7 +95,8 @@ class Login extends Component {
   // }
 
   handleLogin = (event) => {
-    alert('An essay was submitted: ' + this.state.email + ' ' + this.state.password);
+    // alert('An essay was submitted: ' + this.state.email + ' ' + this.state.password);
+    login({email: this.state.email, password: this.state.password});
     event.preventDefault();
   }
 
