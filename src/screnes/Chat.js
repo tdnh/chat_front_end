@@ -5,6 +5,8 @@ import Input from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import config from '../config';
 import '../styles/Chat.css';
+import { SnackbarContent } from 'material-ui/Snackbar';
+
 
 import { connect } from 'react-redux';
 
@@ -25,6 +27,21 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
   },
+  snackbar: {
+    margin: theme.spacing.unit,
+  },
+  chatBody: {
+    position: 'absolute',
+    margin: 'auto',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    width: '600px',
+    height: '400px',
+    borderRadius: '3px',
+    overflowY: 'scroll'
+   }
 });
 
 
@@ -61,7 +78,7 @@ class Chat extends Component {
     console.log(props);
     this.state = {
       message: {},
-      messages: [],
+      messages: [{_id: 'asdasd', body: 'asdasd'}],
       user: props.user,
       roomId: ''
     };
@@ -131,16 +148,21 @@ class Chat extends Component {
   render() {
     const classes = this.props.classes;
 
+    // let messages = this.state.messages.map(m => {
+    //   return (<span key={m._id}>{m.body}</span>);
+    // });
     let messages = this.state.messages.map(m => {
-      return (<span key={m._id}>{m.body}</span>);
+      return (<SnackbarContent key={m._id} className={classes.snackbar} message={m.body} />); // action={action}
     });
+
+    // console.log(messages);
 
     return (
       <div className={classes.container}>
         <div>
           <h1>Hello chat</h1>
         </div>
-        <div>
+        <div className={classes.chatBody}>
           {messages}
         </div>
         <footer >
