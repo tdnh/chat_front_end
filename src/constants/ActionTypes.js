@@ -3,3 +3,5 @@ export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const FETCH_MESSAGES = 'FETCH_MESSAGES';
 export const FETCH_ROOMS = 'FETCH_ROOMS';
+export const RECEIVE_REGISTER = 'RECEIVE_REGISTER';
+export const REQUEST_REGISTER = 'REQUEST_REGISTER';

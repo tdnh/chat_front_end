@@ -6,6 +6,7 @@
     "history": "^4.7.2",
     "material-ui": "^1.0.0-beta.13",
     "material-ui-icons": "^1.0.0-beta.14",
+    "materialize-css": "^0.100.2",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-facebook-login": "^3.6.2",

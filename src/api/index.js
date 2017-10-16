@@ -34,10 +34,39 @@ function login(user, cb) {
 };
 
 
+function register(user, cb) {
+  let body = {
+    email: user.email,
+    password: user.password,
+    name: user.name,
+  };
+
+  fetch(
+    `${config.url}/users`,
+    { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    }
+  ).then(resp => {
+    return resp.json();
+  }).then(data => {
+    console.log('api register response', data);
+    return cb(null, data);
+  }).catch(err => {
+    console.log(err);
+    return cb(err);
+  });
+};
+
+
 
 
 
 
 export default {
-  login
+  login,
+  register,
 }

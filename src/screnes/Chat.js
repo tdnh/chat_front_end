@@ -12,8 +12,7 @@ import { connect } from 'react-redux';
 
 
 import io from 'socket.io-client';
-const socket = io('http://localhost:30000');
-
+const socket = io('http://localhost:30000', {autoConnect: false});
 
 const styles = theme => ({
   container: {
@@ -38,7 +37,7 @@ const styles = theme => ({
     bottom: 0,
     left: 0,
     width: '600px',
-    height: '400px',
+    height: '700px',
     borderRadius: '3px',
     overflowY: 'scroll'
    }
@@ -78,16 +77,19 @@ class Chat extends Component {
     console.log(props);
     this.state = {
       message: {},
-      messages: [{_id: 'asdasd', body: 'asdasd'}],
+      messages: [],
       user: props.user,
-      roomId: ''
+      roomId: '59cf5f6dbe94083b0bfb8221'
     };
+    socket.open();
     socket.on('connect', this.onConnect);
   }
 
   onConnect = () => {
     let that = this;
-
+    console.log('connect callback ----------------> ');
+    console.log('connect callback');
+    socket.emit('join', {roomId: that.roomId});
     // socket.emit('add-user', {username: that.state.name});
 
     // socket.on('user-joined', (data) => {
@@ -105,7 +107,6 @@ class Chat extends Component {
         messages: messages
       })
     });
-    socket.emit('join', {roomId: '59cf5f6dbe94083b0bfb8221'});
     socket.on('newMessage', function(data){
 
       console.log('newMessage data', data);
@@ -124,6 +125,7 @@ class Chat extends Component {
     // });
     socket.on('disconnect', function(d){
       console.log('disconnect ',d);
+      socket.open();
     });
   }
 
@@ -152,7 +154,7 @@ class Chat extends Component {
     //   return (<span key={m._id}>{m.body}</span>);
     // });
     let messages = this.state.messages.map(m => {
-      return (<SnackbarContent key={m._id} className={classes.snackbar} message={m.body} />); // action={action}
+      return (<SnackbarContent key={m._id} className={classes.snackbar} message={`${m.author.name}: ${m.body}`} />); // action={action}
     });
 
     // console.log(messages);

@@ -17,6 +17,13 @@ function receiveLogin(userInfo) {
   }
 };
 
+function receiveRegister(userInfo) {
+  return {
+    type: types.RECEIVE_REGISTER,
+    userInfo
+  }
+};
+
 export const userLogin = (user) => dispatch => {
   
   // console.log('action userLogin');
@@ -26,7 +33,20 @@ export const userLogin = (user) => dispatch => {
     if (err) return console.log(err);
     dispatch(receiveLogin(userInfo));
   });
-}
+};
+
+
+
+export const userRegister = (user) => dispatch => {
+  
+  // console.log('action userLogin');
+  // console.log('user',user);
+  // console.log('dispatch',dispatch);
+  api.register(user, (err, userInfo) => {
+    if (err) return console.log(err);
+    dispatch(receiveRegister(userInfo));
+  });
+};
 
 
 // export function userLogin(userInput) {

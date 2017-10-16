@@ -11,7 +11,7 @@ import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-r
 
 import reducers from './reducers'; // Or wherever you keep your reducers
 
-import App from './App';
+import AppRouter from '../src/router';
 
 
 const middleware = [thunk];
@@ -45,7 +45,7 @@ ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history} >
-      <App />
+      <AppRouter />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
