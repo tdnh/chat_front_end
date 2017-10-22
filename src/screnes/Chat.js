@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 
 
 import io from 'socket.io-client';
-const socket = io('http://localhost:30000', {autoConnect: false});
+const socket = io(`${config.url}`, {autoConnect: false});
 
 const styles = theme => ({
   container: {

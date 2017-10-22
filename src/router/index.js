@@ -3,7 +3,15 @@ import React from 'react';
 import { Route, Switch, Link, Redirect } from 'react-router-dom';
 import Screnes from '../screnes';
 import { connect } from 'react-redux';
-import 'materialize-css';
+import { withStyles } from 'material-ui/styles';
+
+
+const styles = theme => ({
+  header: {
+    width: '100%',
+    height: 400
+  },
+});
 
 function checkUserInfo(user) {
   if (!user) return false;
@@ -24,22 +32,21 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 )
 
 const RoutesApp = (props) => {
-  console.log('this.props');
-  console.log(props);
+  const { classes } = props;
 
   return (
     (
       <div >
-          <nav>
-          <Link to="/" className="brand-logo">Home</Link>
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/register">Register</Link></li>
-              <li><Link to="/chat">Chat</Link></li>
-              <li><Link to="/about">About</Link></li>
-            </ul>
-          </nav>
-        <main className="main">
+        <nav className={classes.header}>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/register">Register</Link></li>
+            <li><Link to="/chat">Chat</Link></li>
+            <li><Link to="/about">About</Link></li>
+          </ul>
+        </nav>
+        <main>
           <Switch>
             <Route exact path="/" component={Screnes.Home} />
             <Route path="/login" component={Screnes.Login} />
@@ -49,7 +56,6 @@ const RoutesApp = (props) => {
             <Route component={Screnes.NotFound} />
           </Switch>
         </main>
-        <a className="btn btn-floating pulse"><i className="material-icons">menu</i></a>
       </div>
     )
   )
@@ -74,4 +80,5 @@ function mapDispatchToProps(dispatch) {
 
 const RouteConnect = connect(mapStateToProps, mapDispatchToProps)(RoutesApp);
 
-export default RouteConnect;
+// export default RouteConnect;
+export default withStyles(styles)(RouteConnect);
