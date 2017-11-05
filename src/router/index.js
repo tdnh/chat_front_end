@@ -4,12 +4,15 @@ import { Route, Switch, Link, Redirect } from 'react-router-dom';
 import Screnes from '../screnes';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
+import '../styles/Header.css';
 
 
 const styles = theme => ({
   header: {
     width: '100%',
-    height: 400
+    height: 60,
+    backgroundColor: '#20232a',
+    color: '#ffffff'
   },
 });
 
@@ -37,9 +40,11 @@ const RoutesApp = (props) => {
   return (
     (
       <div >
-        <nav className={classes.header}>
+        <header className={classes.header}>
+          <Link to="/">Home</Link>
+        </header>
+        <nav>
           <ul>
-            <li><Link to="/">Home</Link></li>
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/register">Register</Link></li>
             <li><Link to="/chat">Chat</Link></li>

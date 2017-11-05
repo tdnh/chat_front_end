@@ -9,8 +9,12 @@
   position: fixed;
   padding: 0px;
   margin-bottom: 30px;
-  color: #ffffff !important;
+  color: #ffffff;
   text-align: center;
+}
+
+a {
+  color: floralwhite
 }
 
 div nav {
